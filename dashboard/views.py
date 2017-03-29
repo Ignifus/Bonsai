@@ -17,3 +17,4 @@ def server(request):
 
 def apps(request):
     return render(request, 'dashboard/apps.html')
+
