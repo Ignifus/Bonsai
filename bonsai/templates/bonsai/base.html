@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width">
+
+    <meta name="msapplication-TileColor" content="#00aba9">
+    <meta name="msapplication-TileImage" content="/static/favicons/mstile-144x144.png">
+    <meta name="msapplication-config" content="/static/favicons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="/static/favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="/static/favicons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="/static/favicons/android-chrome-192x192.png" sizes="192x192">
+    <link rel="icon" type="image/png" href="/static/favicons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="/static/favicons/manifest.json">
+    <link rel="mask-icon" href="/static/favicons/safari-pinned-tab.svg" color="#ff6200">
+    <link rel="shortcut icon" href="/static/favicons/favicon.ico">
+
+    <script type="text/javascript" src="/static/libs/jquery/jquery-3.1.1.min.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/static/libs/bootstrap/css/bootstrap.min.css">
+    <script type="text/javascript" src="/static/libs/bootstrap/js/bootstrap.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+
+    <script type="text/javascript" src="/static/js/global.js"></script>
+
+    <link type="text/css" rel="stylesheet" href="/static/css/fonts.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/global.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/nav.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/content.css">
+    <link type="text/css" rel="stylesheet" href="/static/css/footer.css">
+
+    <title>Ignifus</title>
+    <meta name="description" content="Ignited Innovation">
+    <meta name="author" content="Ignifus">
+</head>
+
+<body>
+
+<header>
+    <nav class="navbar navbar-inverse navbar-static-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">
+                    <img src="/static/img/Ignifus-Rufous.png" alt="Ignifus Rufous">
+                    <img src="/static/img/Ignifus.png" alt="Ignifus">
+                    <h1 class="hidden">Ignifus</h1>
+                </a>
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/news">News</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/blog">Blog</a></li>
+                    {#                    <li><a href="#">Store</a></li>#}
+                    <li><a href="/about">About</a></li>
+                    {#                    <li><a href="#">Career</a></li>#}
+                    <li><a href="/contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<main>
+
+    <section>
+        {% block content %}
+        {% endblock %}
+    </section>
+
+</main>
+
+<footer class="i-content">
+    <div class="i-centered-500">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <a class="i-footer-logo" href="/" title="Ignifus">
+                        <img src="/static/img/Ignifus-Rufous.png" alt="Ignifus Rufous">
+                        <img src="/static/img/Ignifus.png" alt="Ignifus">
+                    </a>
+                </div>
+
+                <div class="col-md-6 i-copyright-notice">
+                    <p>Copyright © Ignifus 2017.</p>
+                    <p>All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="i-centered-500">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-6">
+                    <span class="font-nexa">INFO</span>
+                    <ul class="i-footer-links">
+                        {#                    <li><a href="#" title="Awards">Awards</a></li>#}
+                        {#                    <li><a href="#" title="Presentations">Presentations</a></li>#}
+                        <li><a href="/faq" title="FAQ">FAQ</a></li>
+                        <li><a href="irc://irc.ignifus.com:5001/#Dev" title="IRC">IRC</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-6">
+                    <span class="font-nexa">LEGAL</span>
+                    <ul class="i-footer-links">
+                        {#                    <li><a href="#" title="Terms of Service">Terms of Service</a></li>#}
+                        <li><a href="/privacypolicy" title="Privacy Policy">Privacy Policy</a></li>
+                        <li><a href="/cookiespolicy" title="Privacy Policy">Cookies Policy</a></li>
+                        {#                    <li><a href="#" title="Press">Press</a></li>#}
+                        {#                    <li><a href="#" title="Branding">Branding</a></li>#}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="i-centered-500">
+        <form class="i-search-form" method="get" action="/sitesearch">
+            <input class="i-search-input" type="text" name="search">
+            <input class="hidden" type="submit" value=".">
+        </form>
+    </div>
+</footer>
+
+</body>
+
+</html>
