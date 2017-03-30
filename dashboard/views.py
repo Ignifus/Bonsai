@@ -19,7 +19,7 @@ def login_auth(request):
         return render(request, 'dashboard/landing.html')
 
 
-@login_required(login_url='/landing/')
+@login_required(login_url='/')
 def home(request):
     return render(request, 'dashboard/home.html')
 
