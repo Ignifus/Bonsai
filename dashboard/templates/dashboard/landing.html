@@ -25,6 +25,8 @@
         <p>Welcome to bonsai!</p>
 
         <form action="/login_auth/" method="post">
+            {% csrf_token %}
+
             <input type="text" name="username">
             <input type="password" name="password">
             <input type="submit">
