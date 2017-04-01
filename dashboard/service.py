@@ -40,9 +40,8 @@ def get_logs(request):
     if app:
         found_app = App.objects.filter(name=app)
         if found_app.exists():
-            test = found_app.first()
-            http_data = Http.objects.all()
-            logs = Log.objects.filter(app=1)
+            http_data = Http.objects.filter(app=found_app.first().id)
+            logs = Log.objects.filter(app=found_app.first().id)
             data = serializers.serialize('json', [logs, http_data])
             return JsonResponse(data, safe=False)
         else:
@@ -54,10 +53,14 @@ def get_logs(request):
 @login_required(login_url='/')
 @csrf_exempt
 def get_server_logs(request):
+    last_log = ServerLog.objects.latest('timestamp')
+    netdownload = psutil.net_io_counters().bytes_recv - last_log.net_download
+    netupload = psutil.net_io_counters().bytes_sent - last_log.net_upload
+
     obj = ServerLog(cpu_usage=psutil.cpu_percent(),
                     ram_usage=psutil.virtual_memory().used, ram_total=psutil.virtual_memory().total,
                     hdd_usage=psutil.disk_usage('/').used, hdd_total=psutil.disk_usage('/').total,
-                    net_download=psutil.net_io_counters().bytes_recv, net_upload=psutil.net_io_counters().bytes_sent,
+                    net_download=netdownload, net_upload=netupload,
                     timestamp=str(time.time()))
     obj.save()
     data = serializers.serialize('json', [obj, ])
