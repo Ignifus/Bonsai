@@ -15,6 +15,10 @@ input {
   -webkit-appearance: none;
 }
 
+h2{
+    color:whitesmoke;
+}
+
 p {
   line-height: 1.5em;
 }
