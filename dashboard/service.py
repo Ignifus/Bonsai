@@ -4,8 +4,10 @@ from django.http import JsonResponse
 from django.shortcuts import render
 from .models import *
 from django.core.exceptions import PermissionDenied
+from django.views.decorators.csrf import csrf_exempt
 
 
+@csrf_exempt
 def receive_logs(request):
     data = json.loads(request.body)
     app = App.objects.filter(name=data['app'], apikey=data['key'])
@@ -23,10 +25,12 @@ def receive_logs(request):
     raise PermissionDenied
 
 
+@csrf_exempt
 def get_logs(request):
     return render(request, "dashboard/get-logs.html")
 
 
+@csrf_exempt
 def get_server_logs(request):
     obj = ServerLog(cpu_usage=15)
     data = serializers.serialize('json', [obj, ])
