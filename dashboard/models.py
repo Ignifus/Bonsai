@@ -15,7 +15,7 @@ class App(models.Model):
 class Log(models.Model):
     method = models.CharField(max_length=40)
     description = models.CharField(max_length=60)
-    timestamp = models.IntegerField()
+    timestamp = models.FloatField()
     app = models.ForeignKey(App, related_name='logs')
 
     class Meta:
@@ -27,7 +27,7 @@ class Log(models.Model):
 
 class Http(models.Model):
     code = models.CharField(max_length=3)
-    timestamp = models.IntegerField()
+    timestamp = models.FloatField()
     app = models.ForeignKey(App, related_name='httpcodes')
 
     class Meta:
