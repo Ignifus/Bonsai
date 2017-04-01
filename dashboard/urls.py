@@ -1,4 +1,5 @@
 from django.conf.urls import url
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from . import auth
 from . import service
 from . import views
@@ -14,3 +15,5 @@ urlpatterns = [
     url(r'^receive-logs/$', service.receive_logs, name='receive_logs'),
     url(r'^get-logs/$', service.get_logs, name='get_logs')
 ]
+
+urlpatterns += staticfiles_urlpatterns()
