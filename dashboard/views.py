@@ -19,12 +19,12 @@ def login_auth(request):
         login(request, user)
         return redirect('/home/')
     else:
-        return redirect('/landing/')
+        return redirect('/')
 
 
 def logout_auth(request):
     logout(request)
-    return redirect('/landing/')
+    return redirect('/')
 
 
 @login_required(login_url='/')
