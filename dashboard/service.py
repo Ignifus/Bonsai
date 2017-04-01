@@ -1,4 +1,6 @@
 import json
+from django.core import serializers
+from django.http import JsonResponse
 from django.shortcuts import render
 from .models import *
 from django.core.exceptions import PermissionDenied
@@ -6,7 +8,7 @@ from django.core.exceptions import PermissionDenied
 
 def receive_logs(request):
     data = json.loads(request.body)
-    app = App.objects.filter(name=data['app'], apikey=data['key']);
+    app = App.objects.filter(name=data['app'], apikey=data['key'])
     if app.exists():
         for http_log in data['http']:
             http_logs = Http(code=http_log['code'], route=http_log['route'], timestamp=http_log['timestamp'], app=app)
@@ -22,3 +24,10 @@ def receive_logs(request):
 
 def get_logs(request):
     return render(request, "dashboard/get-logs.html")
+
+
+def get_server_logs(request):
+    obj = ServerLog(cpu_usage=15)
+    data = serializers.serialize('json', [obj, ])
+    return JsonResponse(data, safe=False)
+

@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 
 class App(models.Model):
@@ -16,14 +15,14 @@ class App(models.Model):
 class Log(models.Model):
     method = models.CharField(max_length=40)
     description = models.CharField(max_length=60)
-    timestamp = models.IntegerField(default=timezone.now)
+    timestamp = models.IntegerField()
     app = models.ForeignKey(App, related_name='logs')
 
     class Meta:
         verbose_name_plural = "logs"
 
     def __str__(self):
-        return self.description + " " + self.timestamp.__str__()
+        return self.description
 
 
 class Http(models.Model):
@@ -36,4 +35,18 @@ class Http(models.Model):
         verbose_name_plural = "http"
 
     def __str__(self):
-        return self.code + " " + self.route + " " + self.timestamp.__str__()
+        return self.code + " " + self.route
+
+
+class ServerLog(models.Model):
+    cpu_usage = models.IntegerField()
+    ram_usage = models.IntegerField()
+    ram_total = models.IntegerField()
+    hdd_usage = models.IntegerField()
+    hdd_total = models.IntegerField()
+    net_upload = models.IntegerField()
+    net_download = models.IntegerField()
+    timestamp = models.IntegerField()
+
+    class Meta:
+        verbose_name_plural = "serverlogs"
