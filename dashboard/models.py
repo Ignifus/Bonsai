@@ -27,7 +27,6 @@ class Log(models.Model):
 
 class Http(models.Model):
     code = models.CharField(max_length=3)
-    route = models.CharField(max_length=200)
     timestamp = models.IntegerField()
     app = models.ForeignKey(App, related_name='httpcodes')
 

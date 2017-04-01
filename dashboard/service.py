@@ -14,7 +14,7 @@ def receive_logs(request):
     app = App.objects.filter(name=data['app'], apikey=data['key'])
     if app.exists():
         for http_log in data['http']:
-            http_logs = Http(code=http_log['code'], route=http_log['route'], timestamp=http_log['timestamp'], app=app)
+            http_logs = Http(code=http_log['code'], timestamp=http_log['timestamp'], app=app)
             http_logs.save()
 
         for log in data['logs']:
