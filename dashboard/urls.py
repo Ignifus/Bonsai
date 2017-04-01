@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^home/$', views.home, name='home'),
     url(r'^server/$', views.server, name='server'),
     url(r'^apps/$', views.apps, name='apps'),
-    url(r'^receive-logs/$', service.receive_logs, name='receive_logs')
+    url(r'^receive-logs/$', service.receive_logs, name='receive_logs'),
+    url(r'^get-logs/$', service.get_logs, name='get_logs')
 ]
