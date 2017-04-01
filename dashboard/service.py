@@ -20,9 +20,7 @@ def receive_logs(request):
         for log in data['logs']:
             logs = Log(method=log['method'], description=log['description'], timestamp=log['timestamp'], app=app)
             logs.save()
-
-    context = {'data': data}
-    return render(request, "dashboard/receive-logs.html", context)
+        return JsonResponse({'status': 'ok'})
     raise PermissionDenied
 
 
