@@ -45,6 +45,8 @@ class ServerLog(models.Model):
     hdd_total = models.BigIntegerField()
     net_upload = models.BigIntegerField()
     net_download = models.BigIntegerField()
+    net_upload_total = models.BigIntegerField()
+    net_download_total = models.BigIntegerField()
     timestamp = models.FloatField()
 
     class Meta:
