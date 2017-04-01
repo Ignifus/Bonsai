@@ -40,8 +40,8 @@ def get_logs(request):
     if app:
         found_app = App.objects.filter(name=app)
         if found_app.exists():
-            test = found_app.first();
-            http_data = Http.objects.filter(app=1)
+            test = found_app.first()
+            http_data = Http.objects.all()
             logs = Log.objects.filter(app=1)
             data = serializers.serialize('json', [logs, http_data])
             return JsonResponse(data, safe=False)

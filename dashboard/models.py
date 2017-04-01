@@ -34,7 +34,7 @@ class Http(models.Model):
         verbose_name_plural = "http"
 
     def __str__(self):
-        return self.code + " " + self.route
+        return self.code
 
 
 class ServerLog(models.Model):
