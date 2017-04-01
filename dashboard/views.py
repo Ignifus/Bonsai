@@ -1,11 +1,14 @@
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 
 def landing(request):
-    return render(request, 'dashboard/landing.html')
+    if request.user.is_authenticated:
+        return render(request, 'dashboard/landing.html')
+    else:
+        return render(request, 'dashboard/home.html')
 
 
 def login_auth(request):
@@ -22,6 +25,11 @@ def login_auth(request):
 @login_required(login_url='/')
 def home(request):
     return render(request, 'dashboard/home.html')
+
+
+def logout_auth(request):
+    logout(request)
+    return render(request, 'dashboard/landing.html')
 
 
 def server(request):
