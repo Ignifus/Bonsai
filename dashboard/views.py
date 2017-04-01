@@ -14,9 +14,11 @@ def home(request):
     return render(request, 'dashboard/home.html')
 
 
+@login_required(login_url='/')
 def server(request):
     return render(request, 'dashboard/server.html')
 
 
+@login_required(login_url='/')
 def apps(request):
     return render(request, 'dashboard/apps.html')

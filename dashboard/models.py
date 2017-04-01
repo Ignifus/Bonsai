@@ -38,14 +38,14 @@ class Http(models.Model):
 
 
 class ServerLog(models.Model):
-    cpu_usage = models.IntegerField()
-    ram_usage = models.IntegerField()
-    ram_total = models.IntegerField()
-    hdd_usage = models.IntegerField()
-    hdd_total = models.IntegerField()
-    net_upload = models.IntegerField()
-    net_download = models.IntegerField()
-    timestamp = models.IntegerField()
+    cpu_usage = models.BigIntegerField()
+    ram_usage = models.BigIntegerField()
+    ram_total = models.BigIntegerField()
+    hdd_usage = models.BigIntegerField()
+    hdd_total = models.BigIntegerField()
+    net_upload = models.BigIntegerField()
+    net_download = models.BigIntegerField()
+    timestamp = models.FloatField()
 
     class Meta:
         verbose_name_plural = "serverlogs"

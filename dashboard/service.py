@@ -1,10 +1,14 @@
 import json
+
+import time
 from django.core import serializers
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import *
 from django.core.exceptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
+import psutil
 
 
 @csrf_exempt
@@ -28,14 +32,21 @@ def receive_logs(request):
         return render(request, "dashboard/receive-logs.html")
 
 
+@login_required(login_url='/')
 @csrf_exempt
 def get_logs(request):
     return render(request, "dashboard/get-logs.html")
 
 
+@login_required(login_url='/')
 @csrf_exempt
 def get_server_logs(request):
-    obj = ServerLog(cpu_usage=15)
+    obj = ServerLog(cpu_usage=psutil.cpu_percent(),
+                    ram_usage=psutil.virtual_memory().used, ram_total=psutil.virtual_memory().total,
+                    hdd_usage=psutil.disk_usage('/').used, hdd_total=psutil.disk_usage('/').total,
+                    net_download=psutil.net_io_counters().bytes_recv, net_upload=psutil.net_io_counters().bytes_sent,
+                    timestamp=str(time.time()))
+    obj.save()
     data = serializers.serialize('json', [obj, ])
     return JsonResponse(data, safe=False)
 
