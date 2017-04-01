@@ -109,5 +109,5 @@ after { clear: both; }
 
 .login-form{
     margin:auto;
-    min-width:500px;
+    max-width:500px;
 }
