@@ -9,19 +9,23 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def receive_logs(request):
-    json_str = (request.body.decode('utf-8'))
-    data = json.loads(json_str)
-    app = App.objects.filter(name=data['app'], apikey=data['key'])
-    if app.exists():
-        for http_log in data['http']:
-            http_logs = Http(code=http_log['code'], timestamp=http_log['timestamp'], app=app.first())
-            http_logs.save()
+    if request.method == "POST":
+        json_str = (request.body.decode('utf-8'))
+        data = json.loads(json_str)
+        app = App.objects.filter(name=data['app'], apikey=data['key'])
+        if app.exists():
+            for http_log in data['http']:
+                http_logs = Http(code=http_log['code'], timestamp=http_log['timestamp'], app=app.first())
+                http_logs.save()
 
-        for log in data['logs']:
-            logs = Log(method=log['method'], description=log['description'], timestamp=log['timestamp'], app=app.first())
-            logs.save()
-        return JsonResponse({'status': 'ok'})
-    raise PermissionDenied
+            for log in data['logs']:
+                logs = Log(method=log['method'], description=log['description'], timestamp=log['timestamp'], app=app.first())
+                logs.save()
+            return JsonResponse({'status': 'ok'})
+        else:
+            raise PermissionDenied
+    else:
+        return render(request, "dashboard/receive-logs.html")
 
 
 @csrf_exempt
