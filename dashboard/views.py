@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 
 def landing(request):
     if request.user.is_authenticated:
-        return redirect(request, 'dashboard/landing.html')
+        return render(request, 'dashboard/landing.html')
     else:
         return redirect(request, 'dashboard/home.html')
 
@@ -24,7 +24,7 @@ def login_auth(request):
 
 @login_required(login_url='/')
 def home(request):
-    return redirect(request, 'dashboard/home.html')
+    return render(request, 'dashboard/home.html')
 
 
 def logout_auth(request):
@@ -33,8 +33,8 @@ def logout_auth(request):
 
 
 def server(request):
-    return redirect(request, 'dashboard/server.html')
+    return render(request, 'dashboard/server.html')
 
 
 def apps(request):
-    return redirect(request, 'dashboard/apps.html')
+    return render(request, 'dashboard/apps.html')
