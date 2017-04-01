@@ -5,7 +5,7 @@ from django.core import serializers
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import *
-from django.core.exceptions import PermissionDenied
+from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 import psutil
@@ -35,7 +35,20 @@ def receive_logs(request):
 @login_required(login_url='/')
 @csrf_exempt
 def get_logs(request):
-    return render(request, "dashboard/get-logs.html")
+    #app = request.POST.get('app', False)
+    app = "TestAppA"
+    if app:
+        found_app = App.objects.filter(name=app)
+        if found_app.exists():
+            test = found_app.first();
+            http_data = Http.objects.filter(app=1)
+            logs = Log.objects.filter(app=1)
+            data = serializers.serialize('json', [logs, http_data])
+            return JsonResponse(data, safe=False)
+        else:
+            raise ObjectDoesNotExist
+    else:
+        return render(request, "dashboard/get-logs.html")
 
 
 @login_required(login_url='/')
