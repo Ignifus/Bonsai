@@ -5,10 +5,17 @@ from django.core.exceptions import PermissionDenied
 
 
 def receive_logs(request):
-    json_str = '{"app": "TestApp", "key": "sarasacosmica", "http": [{"code": "404", "route": "/firuli", "timestamp": 1}], "logs": [{"method": "","description": "","timestamp": 1}]}'
-    data = json.loads(json_str)
-    app_found = App.objects.filter(name=data['app'], apikey=data['key']).exists()
-    if app_found:
+    data = json.loads(request.body)
+    app = App.objects.filter(name=data['app'], apikey=data['key']);
+    if app.exists():
+        for http_log in data['http']:
+            http_logs = Http(code=http_log['code'], route=http_log['route'], timestamp=http_log['timestamp'], app=app)
+            http_logs.save()
+
+        for log in data['logs']:
+            logs = Log(method=log['method'], description=log['description'], timestamp=log['timestamp'], app=app)
+            logs.save()
+
         return render(request, "dashboard/receive-logs.html")
     raise PermissionDenied
 
