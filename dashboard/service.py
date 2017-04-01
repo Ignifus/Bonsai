@@ -9,7 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 
 @csrf_exempt
 def receive_logs(request):
-    data = json.loads(request.body)
+    json_str = (request.body.decode('utf-8'))
+    data = json.loads(json_str)
     app = App.objects.filter(name=data['app'], apikey=data['key'])
     if app.exists():
         for http_log in data['http']:
