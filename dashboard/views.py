@@ -8,7 +8,7 @@ def landing(request):
     if request.user.is_authenticated:
         return render(request, 'dashboard/landing.html')
     else:
-        return redirect('home')
+        return redirect('home', request)
 
 
 def login_auth(request):
@@ -17,19 +17,19 @@ def login_auth(request):
     user = authenticate(username=username, password=password)
     if user is not None:
         login(request, user)
-        return redirect('home')
+        return redirect('home', request)
     else:
-        return redirect('landing')
+        return redirect('landing', request)
+
+
+def logout_auth(request):
+    logout(request)
+    return redirect('landing', request)
 
 
 @login_required(login_url='/')
 def home(request):
     return render(request, 'dashboard/home.html')
-
-
-def logout_auth(request):
-    logout(request)
-    return redirect('landing')
 
 
 def server(request):
