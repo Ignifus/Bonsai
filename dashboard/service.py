@@ -2,6 +2,7 @@ import json
 
 import time
 from django.core import serializers
+from itertools import chain
 from django.http import JsonResponse
 from django.shortcuts import render
 from .models import *
@@ -35,14 +36,15 @@ def receive_logs(request):
 @login_required(login_url='/')
 @csrf_exempt
 def get_logs(request):
-    #app = request.POST.get('app', False)
-    app = "TestAppA"
-    if app:
+    app = request.POST.get('app', False)
+    fromseconds = request.POST.get('from', False)
+    if app and fromseconds:
         found_app = App.objects.filter(name=app)
         if found_app.exists():
-            http_data = Http.objects.filter(app=found_app.first().id)
-            logs = Log.objects.filter(app=found_app.first().id)
-            data = serializers.serialize('json', [logs, http_data])
+            http_data = Http.objects.filter(app=found_app.first().id, timestamp__gte=time.time()-fromseconds)
+            logs = Log.objects.filter(app=found_app.first().id, timestamp__gte=time.time()-fromseconds)
+            combinedlogs = list(chain(http_data, logs))
+            data = serializers.serialize('json', combinedlogs)
             return JsonResponse(data, safe=False)
         else:
             raise ObjectDoesNotExist
