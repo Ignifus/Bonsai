@@ -45,7 +45,7 @@ def get_logs(request):
             logs = Log.objects.filter(app=found_app.first().id, timestamp__gte=time.time()-fromseconds)
             combinedlogs = list(chain(http_data, logs))
             data = serializers.serialize('json', combinedlogs)
-            return JsonResponse(data, safe=False)
+            return HttpResponse(data)
         else:
             raise ObjectDoesNotExist
     else:
