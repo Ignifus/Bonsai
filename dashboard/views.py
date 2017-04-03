@@ -16,7 +16,8 @@ def home(request):
 
 @login_required(login_url='/')
 def server(request):
-    return render(request, 'dashboard/server.html')
+    context = {'server_charts': True}
+    return render(request, 'dashboard/server.html', context)
 
 
 @login_required(login_url='/')

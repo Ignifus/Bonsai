@@ -38,15 +38,15 @@ class Http(models.Model):
 
 
 class ServerLog(models.Model):
-    cpu_usage = models.BigIntegerField()
-    ram_usage = models.BigIntegerField()
-    ram_total = models.BigIntegerField()
-    hdd_usage = models.BigIntegerField()
-    hdd_total = models.BigIntegerField()
-    net_upload = models.BigIntegerField()
-    net_download = models.BigIntegerField()
-    net_upload_total = models.BigIntegerField()
-    net_download_total = models.BigIntegerField()
+    cpu_usage = models.FloatField()
+    ram_usage = models.FloatField()
+    ram_total = models.FloatField()
+    hdd_usage = models.FloatField()
+    hdd_total = models.FloatField()
+    net_upload = models.FloatField()
+    net_download = models.FloatField()
+    net_upload_total = models.FloatField()
+    net_download_total = models.FloatField()
     timestamp = models.FloatField()
 
     class Meta:

@@ -3,7 +3,7 @@ import json
 import time
 from django.core import serializers
 from itertools import chain
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render
 from .models import *
 from django.core.exceptions import PermissionDenied, ObjectDoesNotExist
@@ -60,12 +60,12 @@ def get_server_logs(request):
     netupload = psutil.net_io_counters().bytes_sent - last_log.net_upload_total
 
     obj = ServerLog(cpu_usage=psutil.cpu_percent(),
-                    ram_usage=psutil.virtual_memory().used, ram_total=psutil.virtual_memory().total,
-                    hdd_usage=psutil.disk_usage('/').used, hdd_total=psutil.disk_usage('/').total,
-                    net_download=netdownload, net_upload=netupload,
-                    net_download_total=psutil.net_io_counters().bytes_recv, net_upload_total=psutil.net_io_counters().bytes_sent,
-                    timestamp=str(time.time()))
+                    ram_usage=psutil.virtual_memory().used/1000000, ram_total=psutil.virtual_memory().total/1000000,
+                    hdd_usage=psutil.disk_usage('/').used/1000000, hdd_total=psutil.disk_usage('/').total/1000000,
+                    net_download=netdownload/1000000, net_upload=netupload/1000000,
+                    net_download_total=psutil.net_io_counters().bytes_recv/1000000, net_upload_total=psutil.net_io_counters().bytes_sent/1000000,
+                    timestamp=time.time())
     obj.save()
     data = serializers.serialize('json', [obj, ])
-    return JsonResponse(data, safe=False)
+    return HttpResponse(data)
 
