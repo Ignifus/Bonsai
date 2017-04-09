@@ -24,21 +24,40 @@ def content():
     logging.info('|| INFO - {"method": "content", "timestamp":' + str(time.time()) + ', "description": "/content"}')
     return "<h1>Contenido de la applicacion B</h1>"
 
+@app.route("/post-content", methods=['POST'])
+def post_content():
+    logging.info('|| INFO - {"method": "content", "timestamp":' + str(time.time()) + ', "description": "/content"}')
+    return "<h1>Contenido [POST] de la applicacion A</h1>"
+
+@app.route("/crash")
+def crash():
+    return 1/0
+
 @app.errorhandler(404)
 def not_found(error):
     logging.error('|| HTTP - {"code": "404", "timestamp":' + str(time.time()) + '}')
     return '<h1>Pagina no encontrada (B)</h1>'
+
+@app.errorhandler(405)
+def not_allowed(error):
+    logging.error('|| HTTP - {"code": "405", "timestamp":' + str(time.time()) + '}')
+    return '<h1>Metodo no permitido</h1>'
 
 @app.errorhandler(403)
 def forbidden(e):
     logging.error('|| HTTP - {"code": "403", "timestamp":' + str(time.time()) + '}')
     return "<h1>Forbidden Area(B)</h1>"
 
+@app.errorhandler(500)
+def crashed(e):
+    logging.error('|| HTTP - {"code": "500", "timestamp":' + str(time.time()) + '}')
+    return "<h1>Error no recuperable en el servidor</h1>"
+
 if __name__ == "__main__":
     import logging
     import time
     logging.basicConfig(filename='logs_b.log',level=logging.INFO)
 
-    init("TestAppB", "sarasacosmica", "logs_a.log")
+    init("TestAppB", "sarasacosmica", "logs_b.log")
    
     app.run(host='127.0.0.1', port=3002)
