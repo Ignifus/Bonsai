@@ -35,7 +35,7 @@ def send_logs(app_name, api_key, filename):
     headers = {'content-type': 'application/json'}
     r = requests.post("https://bonsai.ignifus.com/receive-logs/", headers=headers, data=json)
     print(r.status_code, r.reason, json)
-    open('index.html', 'w').write(r.text)
+    #open('index.html', 'w').write(r.text)
 
 def init(app_name, api_key, filename):
     send_logs(app_name, api_key, filename)
