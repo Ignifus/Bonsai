@@ -15,6 +15,10 @@ function refresh(){
 
             obj.timestamp = hh+":"+min+":"+ss;
 
+            if(chart.dataProvider.length>15){
+                chart.dataProvider.shift();
+            }
+
             chart.dataProvider.push(obj);
             chart.validateData();
         }
