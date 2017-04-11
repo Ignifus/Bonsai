@@ -60,4 +60,4 @@ if __name__ == "__main__":
 
     init("TestAppA", "sarasacosmica", "logs_a.log")
 
-    app.run(host='127.0.0.1', port=3001)
+    app.run(host='*', port=3001)
