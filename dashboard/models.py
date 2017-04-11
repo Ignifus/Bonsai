@@ -17,6 +17,7 @@ class Log(models.Model):
     description = models.CharField(max_length=60)
     timestamp = models.FloatField()
     app = models.ForeignKey(App, related_name='logs')
+    shown = models.BooleanField()
 
     class Meta:
         verbose_name_plural = "logs"
@@ -29,6 +30,7 @@ class Http(models.Model):
     code = models.CharField(max_length=3)
     timestamp = models.FloatField()
     app = models.ForeignKey(App, related_name='httpcodes')
+    shown = models.BooleanField()
 
     class Meta:
         verbose_name_plural = "http"

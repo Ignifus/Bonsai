@@ -1,9 +1,8 @@
-function refreshcpu(){
+function refreshlogs(){
     $.ajax({
         url: '/get-server-logs',
         dataType: 'application/json',
         complete: function(data){
-
             var obj = JSON.parse(data.responseText)[0].fields;
 
             var date = new Date(0);
@@ -14,20 +13,48 @@ function refreshcpu(){
             var hh = date.getHours();
             obj.timestamp = hh+":"+min+":"+ss;
 
-            if(chart.dataProvider.length>10)
+            hddchartarr = [{
+                            "title": "HDD Usage",
+                            "value": obj.hdd_usage
+                        },
+
+                        {
+                            "title": "HDD Total",
+                            "value": obj.hdd_total
+                        }];
+
+            ramchartarr = [{
+                            "title": "RAM Usage",
+                            "value": obj.ram_usage
+                        },
+
+                        {
+                            "title": "RAM Total",
+                            "value": obj.ram_total
+                        }];
+
+            if(cpuchart.dataProvider.length>5)
             {
-                chart.dataProvider.shift();
-                chart3.dataProvider.shift();
+                cpuchart.dataProvider.shift();
+                netchart.dataProvider.shift();
             }
-            chart.dataProvider.push(obj);
-            chart.validateData();
-            chart3.dataProvider.push(obj);
-            chart3.validateData();
+
+            cpuchart.dataProvider.push(obj);
+            cpuchart.validateData();
+            netchart.dataProvider.push(obj);
+            netchart.validateData();
+
+            hddchart.dataProvider = hddchartarr;
+            hddchart.validateData();
+            ramchart.dataProvider = ramchartarr;
+            ramchart.validateData();
         }
     });
 }
 
-var chart = AmCharts.makeChart( "chartcpu", {
+setInterval(refreshlogs, 1000);
+
+var cpuchart = AmCharts.makeChart( "chartcpu", {
     "type": "serial",
     "theme": "light",
     "zoomOutButton": {
@@ -67,9 +94,7 @@ var chart = AmCharts.makeChart( "chartcpu", {
     }
 } );
 
-setInterval(refreshcpu, 1000);
-
-var chart3 = AmCharts.makeChart( "chartupload", {
+var netchart = AmCharts.makeChart( "chartnet", {
     "type": "serial",
     "theme": "light",
     "zoomOutButton": {
@@ -124,16 +149,14 @@ var chart3 = AmCharts.makeChart( "chartupload", {
     }
 } );
 
-AmCharts.makeChart("charthdd",
+var hddchart = AmCharts.makeChart("charthdd",
                {
                     "type": "pie",
                     "angle": 25,
                     "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                     "depth3D": 28,
-                    "titleField": "category",
-                    "valueField": "column-1",
-                    
-                 
+                    "titleField": "title",
+                    "valueField": "value",
                     "titles": [],
                     "dataProvider": [
                         {
@@ -149,16 +172,14 @@ AmCharts.makeChart("charthdd",
                 }
             );
 
-AmCharts.makeChart("chartram",
+var ramchart = AmCharts.makeChart("chartram",
                {
                     "type": "pie",
                     "angle": 25,
                     "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
                     "depth3D": 28,
-                    "titleField": "category",
-                    "valueField": "column-1",
-                    
-                 
+                    "titleField": "title",
+                    "valueField": "value",
                     "titles": [],
                     "dataProvider": [
                         {

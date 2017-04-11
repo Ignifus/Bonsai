@@ -28,4 +28,4 @@ function renderLog(item) {
     return "timestamp: " + item.timestamp  + ", method: " + item.method + ", description: " + item.description + " , app: " + item.app;
 }
 
-setInterval(queryLogs, 15000);
+setInterval(queryLogs, 1000);

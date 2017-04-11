@@ -20,11 +20,11 @@ def receive_logs(request):
         app = App.objects.filter(name=data['app'], apikey=data['key'])
         if app.exists():
             for http_log in data['http']:
-                http_logs = Http(code=http_log['code'], timestamp=http_log['timestamp'], app=app.first())
+                http_logs = Http(code=http_log['code'], timestamp=http_log['timestamp'], app=app.first(), shown=False)
                 http_logs.save()
 
             for log in data['logs']:
-                logs = Log(method=log['method'], description=log['description'], timestamp=log['timestamp'], app=app.first())
+                logs = Log(method=log['method'], description=log['description'], timestamp=log['timestamp'], app=app.first(), shown=False)
                 logs.save()
             return JsonResponse({'status': 'ok'})
         else:
@@ -41,8 +41,15 @@ def get_logs(request):
     if app and fromseconds:
         found_app = App.objects.filter(name=app)
         if found_app.exists():
-            http_data = Http.objects.filter(app_id=found_app.first().id, timestamp__gte=float(time.time())-float(fromseconds))
-            logs = Log.objects.filter(app_id=found_app.first().id, timestamp__gte=float(time.time())-float(fromseconds))
+            http_data = Http.objects.filter(app_id=found_app.first().id, timestamp__gte=float(time.time())-float(fromseconds), shown=False)
+            logs = Log.objects.filter(app_id=found_app.first().id, timestamp__gte=float(time.time())-float(fromseconds), shown=False)
+
+            for httpd in http_data:
+                httpd.shown = True
+
+            for log in logs:
+                log.shown = True
+
             combinedlogs = list(chain(http_data, logs))
             data = serializers.serialize('json', combinedlogs)
             return HttpResponse(data)
