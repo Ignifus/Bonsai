@@ -46,9 +46,11 @@ def get_logs(request):
 
             for httpd in http_data:
                 httpd.shown = True
+                httpd.save()
 
             for log in logs:
                 log.shown = True
+                log.save()
 
             combinedlogs = list(chain(http_data, logs))
             data = serializers.serialize('json', combinedlogs)
