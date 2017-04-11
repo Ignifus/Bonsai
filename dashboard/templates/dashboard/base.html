@@ -17,8 +17,14 @@
     {% if server_charts is True %}
         <script src="//www.amcharts.com/lib/3/amcharts.js"></script>
         <script src="//www.amcharts.com/lib/3/serial.js"></script>
+        <script type="text/javascript" src="https://www.amcharts.com/lib/3/pie.js"></script>
         <script src="//www.amcharts.com/lib/3/themes/light.js"></script>
+        <script src="http://www.amcharts.com/lib/3/plugins/dataloader/dataloader.min.js" type="text/javascript"></script>
         <script type="text/javascript" src="/static/dashboard/js/charts.js"></script>
+    {% endif %}
+
+    {% if app_charts is True %}
+        <script type="text/javascript" src="/static/dashboard/js/apps.js"></script>
     {% endif %}
 
     <title>Bonsai</title>

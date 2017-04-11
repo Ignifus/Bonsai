@@ -11,7 +11,8 @@ def landing(request):
 
 @login_required(login_url='/')
 def home(request):
-    return render(request, 'dashboard/home.html')
+    context = {'server_charts': True}
+    return render(request, 'dashboard/server.html', context)
 
 
 @login_required(login_url='/')
@@ -22,4 +23,5 @@ def server(request):
 
 @login_required(login_url='/')
 def apps(request):
-    return render(request, 'dashboard/apps.html')
+    context = {'app_charts': True}
+    return render(request, 'dashboard/apps.html', context)

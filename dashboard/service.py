@@ -41,8 +41,8 @@ def get_logs(request):
     if app and fromseconds:
         found_app = App.objects.filter(name=app)
         if found_app.exists():
-            http_data = Http.objects.filter(app=found_app.first().id, timestamp__gte=time.time()-fromseconds)
-            logs = Log.objects.filter(app=found_app.first().id, timestamp__gte=time.time()-fromseconds)
+            http_data = Http.objects.filter(app_id=found_app.first().id, timestamp__gte=float(time.time())-float(fromseconds))
+            logs = Log.objects.filter(app_id=found_app.first().id, timestamp__gte=float(time.time())-float(fromseconds))
             combinedlogs = list(chain(http_data, logs))
             data = serializers.serialize('json', combinedlogs)
             return HttpResponse(data)
@@ -55,15 +55,18 @@ def get_logs(request):
 @login_required(login_url='/')
 @csrf_exempt
 def get_server_logs(request):
-    last_log = ServerLog.objects.latest('timestamp')
-    netdownload = psutil.net_io_counters().bytes_recv - last_log.net_download_total
-    netupload = psutil.net_io_counters().bytes_sent - last_log.net_upload_total
+    last_log = ServerLog.objects.latest()
+    totaldownload = psutil.net_io_counters().bytes_recv
+    totalupload = psutil.net_io_counters().bytes_sent
+
+    netdownload = totaldownload - last_log.net_download_total
+    netupload = totalupload - last_log.net_upload_total
 
     obj = ServerLog(cpu_usage=psutil.cpu_percent(),
                     ram_usage=psutil.virtual_memory().used/1000000, ram_total=psutil.virtual_memory().total/1000000,
                     hdd_usage=psutil.disk_usage('/').used/1000000, hdd_total=psutil.disk_usage('/').total/1000000,
-                    net_download=netdownload/1000000, net_upload=netupload/1000000,
-                    net_download_total=psutil.net_io_counters().bytes_recv/1000000, net_upload_total=psutil.net_io_counters().bytes_sent/1000000,
+                    net_download=netdownload, net_upload=netupload,
+                    net_download_total=totaldownload, net_upload_total=totalupload,
                     timestamp=time.time())
     obj.save()
     data = serializers.serialize('json', [obj, ])

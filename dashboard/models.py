@@ -45,9 +45,10 @@ class ServerLog(models.Model):
     hdd_total = models.FloatField()
     net_upload = models.FloatField()
     net_download = models.FloatField()
-    net_upload_total = models.FloatField()
-    net_download_total = models.FloatField()
+    net_upload_total = models.BigIntegerField()
+    net_download_total = models.BigIntegerField()
     timestamp = models.FloatField()
 
     class Meta:
         verbose_name_plural = "serverlogs"
+        get_latest_by = 'timestamp'
