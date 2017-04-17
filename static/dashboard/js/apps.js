@@ -18,7 +18,7 @@ function queryLogs(){
 }
 
 function renderHttp(item) {
-    return "timestamp: " + item.timestamp  + ", method: " + item.code + " , app: " + item.app;
+    return "timestamp: " + item.timestamp  + ", code: " + item.code + " , app: " + item.app;
 }
 
 function renderLog(item) {
