@@ -12,4 +12,4 @@ before_script:
   - python manage.py migrate
 script:
   - nohup celery -A bonsai worker &
-  - python manage.py test --pattern="*_test.py"
+  - python manage.py test dashboard/tests/
