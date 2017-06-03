@@ -15,13 +15,13 @@ class IntegrationTestCase(TestCase):
 
     def setUp(self):
         App.objects.create(name="test", apikey="testkey")
+        celery_test_task.apply(self.db)
 
     def test_redis(self):
         self.db.set("redis_test", "ok")
         self.assertEqual(self.db.get("redis_test"), b"ok")
 
     def test_celery(self):
-        celery_test_task.apply(self.db)
         self.assertEqual(self.db.get("celery_test"), b"ok")
 
     def test_sql(self):

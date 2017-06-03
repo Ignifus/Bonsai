@@ -82,15 +82,21 @@ DATABASES = {
         'USER': 'bonsai',
         'HOST': 'localhost',
         'PORT': '5432',
-        'TEST': {
+    }
+}
+
+if 'TRAVIS' in os.environ:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql',
             'NAME': 'ci_test',
             'USER': 'postgres',
             'PASSWORD': '',
             'HOST': 'localhost',
             'PORT': '5432'
-        },
+        }
     }
-}
+
 
 CHANNEL_LAYERS = {
     'default': {
