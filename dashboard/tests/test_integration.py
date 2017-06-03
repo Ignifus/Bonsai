@@ -16,13 +16,14 @@ class IntegrationTestCase(TestCase):
     def test_redis(self):
         v = randint(0, 9)
         self.db.set("redis_test", v)
-        self.assertEqual(str(self.db.get("redis_test")), v)
+        self.assertEqual(self.db.get("redis_test"), str(v).encode())
 
     def test_celery(self):
-        t = tasks.celery_test_task.delay()
+        v = randint(0, 9)
+        t = tasks.celery_test_task.delay(v)
         while not t.ready():
             pass
-        self.assertEqual(self.db.get("celery_test"), b"ok")
+        self.assertEqual(self.db.get("celery_test"), str(v).encode())
 
     def test_sql(self):
         app = App.objects.get(name="test")

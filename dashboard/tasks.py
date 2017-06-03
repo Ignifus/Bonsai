@@ -32,6 +32,6 @@ def scan(cmd):
 
 
 @task(name="celery_test_task")
-def celery_test_task():
+def celery_test_task(v):
     db = redis.Redis('localhost')
-    db.set("celery_test", "ok")
+    db.set("celery_test", v)
