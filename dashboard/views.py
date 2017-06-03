@@ -24,3 +24,8 @@ def server(request):
 def apps(request):
     context = {'app_charts': True}
     return render(request, 'dashboard/apps.html', context)
+
+
+@login_required(login_url='/')
+def watchdog(request):
+    return render(request, 'dashboard/watchdog.html')

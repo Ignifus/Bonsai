@@ -1,0 +1,40 @@
+{% extends 'dashboard/base.html' %}
+
+{% block content %}
+    <article>
+        <header>
+            <div class="content-1200">
+                <h1>Watchdog</h1>
+            </div>
+        </header>
+
+        <div class="content-1200">
+            <div class="row">
+                <div class="col-sm-12">
+                    <h3>Packets</h3>
+
+                    <pre id="feed"></pre>
+                </div>
+            </div>
+        </div>
+
+    </article>
+
+    {% block script %}
+        <script>
+            var socket = new WebSocket('ws://' + window.location.host + '/watchdog/');
+
+            socket.onopen = function open() {
+                console.log('WebSockets connection created.');
+            };
+
+            socket.onmessage = function (e) {
+                $("#feed").append(e.data);
+            };
+
+            if (socket.readyState === WebSocket.OPEN) {
+                socket.onopen();
+            }
+        </script>
+    {% endblock script %}
+{% endblock %}

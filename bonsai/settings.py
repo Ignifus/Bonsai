@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'channels',
     'dashboard',
 ]
 
@@ -79,12 +80,21 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'Bonsai',
         'USER': 'bonsai',
-        'PASSWORD': '******',
+        'PASSWORD': '********',
         'HOST': 'remote.ignifus.com',
         'PORT': '5002',
     }
 }
 
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'asgi_redis.RedisChannelLayer',
+        'CONFIG': {
+            'hosts': [('localhost', 6379)],
+        },
+        'ROUTING': 'bonsai.routing.channel_routing',
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.10/ref/settings/#auth-password-validators
@@ -126,3 +136,10 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
       os.path.join(BASE_DIR, "static/"),
 )
+
+# CELERY STUFF
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
