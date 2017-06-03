@@ -1,0 +1,7 @@
+psutil
+redis
+django
+asgi-redis
+channels
+celery
+psycopg2
