@@ -1,12 +1,9 @@
+from random import randint
+
 import redis
-from celery.task import task
+from dashboard import tasks
 from django.test import TestCase
 from dashboard.models import *
-
-
-@task(name="celery_test_task")
-def celery_test_task(db):
-    db.set("celery_test", "ok")
 
 
 class IntegrationTestCase(TestCase):
@@ -15,13 +12,16 @@ class IntegrationTestCase(TestCase):
 
     def setUp(self):
         App.objects.create(name="test", apikey="testkey")
-        celery_test_task.apply(self.db)
 
     def test_redis(self):
-        self.db.set("redis_test", "ok")
-        self.assertEqual(self.db.get("redis_test"), b"ok")
+        v = randint(0, 9)
+        self.db.set("redis_test", v)
+        self.assertEqual(str(self.db.get("redis_test")), v)
 
     def test_celery(self):
+        t = tasks.celery_test_task.delay()
+        while not t.ready():
+            pass
         self.assertEqual(self.db.get("celery_test"), b"ok")
 
     def test_sql(self):

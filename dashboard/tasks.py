@@ -29,3 +29,9 @@ def scan(cmd):
         else:
             print(line, end='')
             Group("users").send(parse(line))
+
+
+@task(name="celery_test_task")
+def celery_test_task():
+    db = redis.Redis('localhost')
+    db.set("celery_test", "ok")
