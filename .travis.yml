@@ -4,7 +4,10 @@ python:
   - "3.6"
 install: "pip install -r requirements.txt"
 services:
+  - postgresql
   - redis-server
+ before_script:
+  - psql -c 'create database ci_test;' -U postgres
 script:
   - nohup celery -A bonsai worker &
-  - pytest
+  - python manage.py test --pattern="*_test.py"
