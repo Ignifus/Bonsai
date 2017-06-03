@@ -1,4 +1,6 @@
 # Bonsai
+[![Build Status](https://travis-ci.org/Ignifus/Bonsai.svg?branch=master)](https://travis-ci.org/Ignifus/Bonsai)
+
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/3986913564a5435a9c3abc69620b4501)](https://www.codacy.com/app/Ignifus/Bonsai?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=Ignifus/Bonsai&amp;utm_campaign=Badge_Grade)
 
 Linux and web server diagnostics front end application.
