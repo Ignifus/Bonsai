@@ -97,36 +97,6 @@ if 'TRAVIS' in os.environ:
         }
     }
 
-
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'mail_admins': {
-            'class': 'django.utils.log.AdminEmailHandler',
-            'level': 'ERROR',
-            'include_html': True,
-        },
-        'logfile': {
-            'class': 'logging.handlers.WatchedFileHandler',
-            'filename': '/var/log/django/bonsai.log'
-        },
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-        'django': {
-            'handlers': ['logfile'],
-            'level': 'ERROR',
-            'propagate': False,
-        }
-    }
-}
-
-
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'asgi_redis.RedisChannelLayer',
