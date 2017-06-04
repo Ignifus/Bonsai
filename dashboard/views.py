@@ -29,6 +29,4 @@ def apps(request):
 
 @login_required(login_url='/')
 def watchdog(request):
-    r_server = redis.Redis('localhost')
-    r_server.set("working", "yes")
     return render(request, 'dashboard/watchdog.html')
