@@ -22,7 +22,7 @@
 
     {% block script %}
         <script>
-            var socket = new WebSocket('wss://' + window.location.host + '/watchdog/');
+            var socket = new WebSocket('wss://' + window.location.host + '/watchdogws');
 
             socket.onopen = function open() {
                 console.log('WebSockets connection created.');
