@@ -1,3 +1,4 @@
+import redis
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 
@@ -28,4 +29,6 @@ def apps(request):
 
 @login_required(login_url='/')
 def watchdog(request):
+    r_server = redis.Redis('localhost')
+    r_server.set("working", "yes")
     return render(request, 'dashboard/watchdog.html')
