@@ -12,7 +12,7 @@ def ws_connect(message):
     if r_server.get('scanrunning') != b"yes":
         r_server.set('scanrunning', 'yes')
         r_server.set('listeners', 1)
-        tasks.scan.delay(["tcpdump", "-i", "eth0", "-tt", "-nn"])
+        tasks.scan.delay(["tcpdump", "-i", "wlp3s0", "-tt", "-nn"])
     else:
         r_server.incr('listeners')
 
