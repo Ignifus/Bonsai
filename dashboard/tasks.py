@@ -25,10 +25,9 @@ def parse(line):
             length = searching_length[1].strip()
         else:
             length = 0
+        return {"time": time, "source": ips[0], "dest": ips[1], "length": length}
     except IndexError:
         return {}
-
-    return {"time": time, "source": ips[0], "dest": ips[1], "length": length}
 
 
 @task(name="scan")
