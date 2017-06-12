@@ -11,9 +11,28 @@
         <div class="content-1200">
             <div class="row">
                 <div class="col-sm-12">
-                    <h3>Packets</h3>
+                    <h3>Network Packets - Live Feed</h3>
 
-                    <pre id="feed"></pre>
+                    <table id="packets" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                        <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Size (bytes)</th>
+                        </tr>
+                        </thead>
+                        <tfoot>
+                        <tr>
+                            <th>Time</th>
+                            <th>Source</th>
+                            <th>Destination</th>
+                            <th>Size (bytes)</th>
+                        </tr>
+                        </tfoot>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -22,19 +41,39 @@
 
     {% block script %}
         <script>
-            var socket = new WebSocket((window.location.protocol == 'https:' ? 'wss://' : 'ws://') + window.location.host + '/watchdogws');
+            var t = $('#packets').DataTable({
+                "columnDefs": [{
+                    "defaultContent": "-",
+                    "targets": "_all"
+                }]
+            });
+            var socket = new WebSocket((window.location.protocol === 'https:' ? 'wss://' : 'ws://') + window.location.host + '/watchdogws');
 
             socket.onopen = function open() {
                 console.log('WebSockets connection created.');
             };
 
             socket.onmessage = function (e) {
-                $("#feed").append(e.data);
+                var packet = JSON.parse(e.data);
+
+                if($.isEmptyObject(packet))
+                    return;
+
+                t.row.add( [
+                    packet.time,
+                    packet.source,
+                    packet.dest,
+                    packet.length
+                ] )
             };
 
             if (socket.readyState === WebSocket.OPEN) {
                 socket.onopen();
             }
+
+            window.setInterval(function() {
+                t.draw();
+            }, 2000);
         </script>
     {% endblock script %}
 {% endblock %}
